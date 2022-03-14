@@ -1,0 +1,126 @@
+<style>
+
+.wrapper{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    size: 100% 100vh;
+    position: fixed;
+    top:0;
+    bottom: 0;
+}
+.content{  height: 5000px
+}
+.box{
+
+    line-height: 100px;
+  text-align: center;
+  font-size: 40px;
+  color: #4497d3;
+  font-weight: 800;
+  will-change: transform;
+}
+  /* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  height: 300px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+ 
+
+</style>
+
+
+<div class="content">
+    <div class="wrapper">
+      <div class="box" data-scroll-speed="2">E</div>
+      <div class="box" data-scroll-speed="3">L</div>
+      <div class="box" data-scroll-speed="6">E</div>
+      <div class="box" data-scroll-speed="5">V</div>
+      <div class="box" data-scroll-speed="9">E</div>
+      <div class="box" data-scroll-speed="4">T</div>
+      <div class="box" data-scroll-speed="8">E</div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script>
+      $.fn.moveIt = function(){
+  var $window = $(window);
+  var instances = [];
+  
+  $(this).each(function(){
+    instances.push(new moveItItem($(this)));
+  });
+  
+  window.addEventListener('scroll', function(){
+    var scrollTop = $window.scrollTop();
+    instances.forEach(function(inst){
+      inst.update(scrollTop);
+    });
+  }, {passive: true});
+}
+
+var moveItItem = function(el){
+  this.el = $(el);
+  this.speed = parseInt(this.el.attr('data-scroll-speed'));
+};
+
+moveItItem.prototype.update = function(scrollTop){
+  this.el.css('transform', 'translateY(' + -(scrollTop / this.speed) + 'px)');
+};
+
+// Initialization
+$(function(){
+  $('[data-scroll-speed]').moveIt();
+});
+
+  </script>
